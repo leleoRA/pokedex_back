@@ -1,12 +1,20 @@
-import { Request, Response } from "express";
 import { getRepository } from "typeorm";
+import bcrypt from "bcrypt";
 
 import User from "../entities/User";
+import user from "../interfaces/user"
 
-export async function getUsers () {
-  const users = await getRepository(User).find({
-    select: ["id", "email"]
+export async function signUp (user: user) {
+  const userExists = await getRepository(User).findOne({
+    where: {email: user.email}
   });
-  
-  return users;
+  if (userExists){
+    return false
+  } else{
+    await getRepository(User).insert({
+      email: user.email,
+      password: bcrypt.hashSync(user.password, 12)
+    })
+    return true
+  }  
 }
