@@ -1,3 +1,4 @@
+import "../../src/setup";
 import supertest from "supertest";
 import { getConnection } from "typeorm";
 
@@ -17,20 +18,32 @@ afterAll(async () => {
   await getConnection().close();
 });
 
-describe("GET /users", () => {
-  it("should answer with text \"OK!\" and status 200", async () => {
+const agent = supertest(app);
+
+describe("POST /sign-up", () => {
+  it("should answer with status 200 when valid params", async () => {
     const user = await createUser();
 
-    const response = await supertest(app).get("/users");
-    
-    expect(response.body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          email: user.email
-        })
-      ])
-    );
-
-    expect(response.status).toBe(200);
+    const response = await agent.post("/sign-up").send(user);
+   
+    expect(response.status).toBe(201);
   });
+
+  it("should answer with status 400 when password is invalid", async () => {
+    const user = await createUser();
+    user.password = "12345"
+
+    const response = await agent.post("/sign-up").send(user);
+   
+    expect(response.status).toBe(400);
+  })
+
+  it("should answer with status 400 when email is invalid", async () => {
+    const user = await createUser();
+    user.email = "qwerty"
+
+    const response = await agent.post("/sign-up").send(user);
+   
+    expect(response.status).toBe(400);
+  })
 });
