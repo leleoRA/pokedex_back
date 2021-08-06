@@ -9,15 +9,12 @@ import connectDatabase from "./database";
 import Pokemons from "./entities/Pokemons";
 import * as userController from "./controllers/userController";
 import * as pokemonController from "./controllers/pokemonController";
-import { error } from "./middlewares/error"
 import { getRepository } from "typeorm";
 import { authenticate } from "./middlewares/authenticate";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-app.use(error);
 
 app.post("/sign-up", userController.signUp);
 app.post("/sign-in", userController.signIn);
