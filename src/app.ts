@@ -21,6 +21,9 @@ app.use(error);
 
 app.post("/sign-up", userController.signUp);
 app.post("/sign-in", userController.signIn);
+app.get("/pokemons", authenticate, pokemonController.getPokemons);
+app.post("/my-pokemons/:id/add", authenticate, pokemonController.addPokemon);
+app.post("/my-pokemons/:id/remove", authenticate, pokemonController.removePokemon);
 
 app.get("/populate", async (req,res)=>{
  
@@ -44,8 +47,6 @@ app.get("/populate", async (req,res)=>{
   }
   res.send("OK")
 })
-
-app.get("/pokemons", authenticate, pokemonController.getPokemons);
 
 export async function init () {
   await connectDatabase();

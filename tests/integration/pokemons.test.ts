@@ -30,7 +30,7 @@ describe("POST /sign-up", () => {
     expect(response.status).toBe(200);
   });
 
-  it("shoul answer with status 401 when doesn't exists", async () => {
+  it("should answer with status 401 when doesn't exists", async () => {
     const response = await agent.get("/pokemons").set("Authorization", `Bearer dfhdfhdfh`);
 
     expect(response.status).toBe(401);

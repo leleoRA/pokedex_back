@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 
 import User from "./User";
+import PokemonUser from "./PokemonUser";
 
 @Entity("pokemons")
 export default class Pokemons{
@@ -31,6 +32,6 @@ export default class Pokemons{
   @Column({type: "boolean", default: false})
   inMyPokemons: boolean;
 
-  @ManyToOne(() => User, (user) => user.pokemons)
-  user: User;
+  @OneToMany(() => PokemonUser, PokemonUser => PokemonUser.pokemons)
+  PokemonUser: PokemonUser[]; 
 }
