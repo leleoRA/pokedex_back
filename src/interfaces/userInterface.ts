@@ -1,4 +1,4 @@
-export default interface User{
+export default interface userInterface{
     email: string;
     password: string;
     confirmPassword: string;

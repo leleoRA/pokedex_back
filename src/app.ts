@@ -7,17 +7,16 @@ import "reflect-metadata";
 import connectDatabase from "./database";
 
 import * as userController from "./controllers/userController";
+import { error } from "./middlewares/error"
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/sign-up", userController.signUp)
+app.post("/sign-up", userController.signUp);
+app.post("/sign-in", userController.signIn);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log(err)
-  return res.sendStatus(500)
-});
+app.use(error);
 
 export async function init () {
   await connectDatabase();
