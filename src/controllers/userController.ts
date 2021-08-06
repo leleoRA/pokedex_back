@@ -31,6 +31,7 @@ export async function signIn(req: Request, res: Response) {
   if (!token){
     res.sendStatus(401)
   } else{
-    res.sendStatus(200).send({token})
+    console.log(token)
+    res.send(token)
   }
 }
